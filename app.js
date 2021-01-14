@@ -56,6 +56,13 @@ app.put('/vitamins/:id', async (req, res) => {
     const vitamin = await VitaModel.findByIdAndUpdate(id, body, {runValidators: true, new: true})
     res.redirect(`/vitamins/${vitamin.id}`)
 })
+
+app.delete('/vitamins/:id', async (req, res) => {
+    const { id } = req.params
+    const vitamin = await VitaModel.findByIdAndDelete(id)
+    res.redirect(`/vitamins`)
+})
+
 app.listen(port, () => {
     console.log(`serving the from port ${port}`)
 })

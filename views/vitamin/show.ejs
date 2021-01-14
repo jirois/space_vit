@@ -1,14 +1,18 @@
 <% layout('layout/boilerplate') %>
 <div class="container mt-3">
   <div class="row">
-      <div class="col-6 col-md-4">
+  <div class="col-6 col-md-4">
     <div class="card  style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title"><%= vitamin.name %></h5>
         <h6 class="card-subtitle mb-2 text-muted"><%= vitamin.dosage %></h6>
         <p class="card-text"><%= vitamin.company %></p>
-        <a href="/vitamins/<%= vitamin.id %>/edit" class="btn btn-primary">Edit Vitamin</a>
-        <a href="#" class="btn btn-danger">Delete Vitamin</a>
+        <div class="d-flex justify-content-between">
+            <a href="/vitamins/<%= vitamin.id %>/edit" class="btn btn-primary ">Edit Vitamin</a>
+            <form action="/vitamins/<%= vitamin._id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete Vitamin</button>
+            </form>
+        </div>
       </div>
     </div>
   </div>
