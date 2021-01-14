@@ -26,6 +26,12 @@ app.get('/vitamins', async (req, res) => {
     const vitamins = await VitaModel.find()
     res.render('vitamin/index', {vitamins})
 })
+
+app.get('/vitamins/:id', async (req, res) => {
+    const { id } = req.params
+    const vitamin = await VitaModel.findById(id)
+    res.render('vitamin/show', { vitamin })
+})
 app.listen(port, () => {
     console.log(`serving the from port ${port}`)
 })
