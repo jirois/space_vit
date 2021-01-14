@@ -2,7 +2,8 @@
 <form
   action="/vitamins/<%= vitamin.id %>?_method=PUT"
   method="POST"
-  class="mt-5"
+  class="mt-5 form-validation"
+  novalidate
 >
   <div class="mb-3 col-9 px-5">
     <label for="name" class="form-label">Name</label>
@@ -12,17 +13,20 @@
       id="name"
       name="name"
       value="<%= vitamin.name %>"
+      required
     />
   </div>
   <div class="mb-3 col-9 px-5">
     <label for="dosage" class="form-label">Dosage</label>
-    <input
-      type="text"
-      class="form-control"
-      id="dosage"
+    <select
+      class="form-select form-select-sm mb-3"
+      aria-label=".form-select-sm"
       name="dosage"
-      value="<%= vitamin.dosage %>"
-    />
+    >
+      <% for (let dosage of dosageForm) { %>
+      <option value="<%= dosage %>" <%= vitamin.dosage === dosage ? 'selected' : '' %>><%= dosage %></option>
+      <% } %>
+    </select>
   </div>
   <div class="mb-3 col-9 px-5">
     <label for="company" class="form-label">Company</label>
@@ -32,6 +36,7 @@
       id="company"
       name="company"
       value="<%= vitamin.company %>"
+      required
     />
   </div>
   <div class="col-12 px-5">

@@ -1,5 +1,10 @@
 <% layout('layout/boilerplate') %>
-<form action="/vitamins/create" method="POST" class="mt-5">
+<form
+  action="/vitamins/create"
+  method="POST"
+  class="mt-5 form-validation"
+  novalidate
+>
   <div class="mb-3 col-9 px-5">
     <label for="name" class="form-label">Name</label>
     <input
@@ -8,17 +13,21 @@
       id="name"
       name="name"
       placeholder="Vitamin name here"
+      required
     />
   </div>
+
   <div class="mb-3 col-9 px-5">
     <label for="dosage" class="form-label">Dosage</label>
-    <input
-      type="text"
-      class="form-control"
-      id="dosage"
+    <select
+      class="form-select form-select-sm mb-3"
+      aria-label=".form-select-sm"
       name="dosage"
-      placeholder="Enter the dosage form @example tablet"
-    />
+    >
+      <% for (let dosage of dosageForm) { %>
+      <option value="<%= dosage %>"><%= dosage %></option>
+      <% } %>
+    </select>
   </div>
   <div class="mb-3 col-9 px-5">
     <label for="company" class="form-label">Company</label>
@@ -28,6 +37,7 @@
       id="company"
       name="company"
       placeholder="Enter company name"
+      required
     />
   </div>
   <div class="col-12 px-5">

@@ -6,6 +6,8 @@ const app = express()
 const VitaModel = require('./models/model')
 const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
+const ErrorApp = require('./utils/ErrorApp')
+const catchAsync = require('./utils/catchAsync')
 
 const options = {
     useNewUrlParser: true,
@@ -25,12 +27,14 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(methodOverride('_method'))
 
+const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop']
 app.get('/vitamins', async (req, res) => {
     const vitamins = await VitaModel.find()
     res.render('vitamin/index', {vitamins})
 })
+
 app.get('/vitamins/new', (req, res) => {
-    res.render('vitamin/new')
+    res.render('vitamin/new', {dosageForm})
 })
 
 app.get('/vitamins/:id', async (req, res) => {
@@ -48,7 +52,7 @@ app.post('/vitamins/create', async (req, res) => {
 app.get('/vitamins/:id/edit', async (req, res) => {
     const { id } = req.params;
     const vitamin = await VitaModel.findById(id)
-    res.render('vitamin/edit', {vitamin})
+    res.render('vitamin/edit', {vitamin, dosageForm})
 })
 app.put('/vitamins/:id', async (req, res) => {
     const { id } = req.params
@@ -62,6 +66,8 @@ app.delete('/vitamins/:id', async (req, res) => {
     const vitamin = await VitaModel.findByIdAndDelete(id)
     res.redirect(`/vitamins`)
 })
+
+
 
 app.listen(port, () => {
     console.log(`serving the from port ${port}`)
