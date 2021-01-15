@@ -28,46 +28,60 @@ app.use(express.json())
 app.use(methodOverride('_method'))
 
 const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop']
-app.get('/vitamins', async (req, res) => {
+app.get('/', (req, res) => {
+    res.render('index')
+})
+app.get('/vitamins', catchAsync(async (req, res) => {
     const vitamins = await VitaModel.find()
     res.render('vitamin/index', {vitamins})
-})
+}))
 
 app.get('/vitamins/new', (req, res) => {
     res.render('vitamin/new', {dosageForm})
 })
 
-app.get('/vitamins/:id', async (req, res) => {
+app.get('/vitamins/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     const vitamin = await VitaModel.findById(id)
     res.render('vitamin/show', { vitamin })
-})
-app.post('/vitamins/create', async (req, res) => {
+}))
+
+app.post('/vitamins/create', catchAsync(async (req, res) => {
     const body = req.body;
+    if(!body) throw new ErrorApp('Invalid data from you', 400)
     const newVit = new VitaModel(body)
     await newVit.save()
     res.redirect(`/vitamins/${newVit.id}`)
 
-})
-app.get('/vitamins/:id/edit', async (req, res) => {
+}))
+
+app.get('/vitamins/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params;
     const vitamin = await VitaModel.findById(id)
     res.render('vitamin/edit', {vitamin, dosageForm})
-})
-app.put('/vitamins/:id', async (req, res) => {
+}))
+
+app.put('/vitamins/:id', catchAsync(async (req, res) => {
     const { id } = req.params
+    if(!id) throw new ErrorApp("Not the id boddy", 401)
     const body = req.body;
     const vitamin = await VitaModel.findByIdAndUpdate(id, body, {runValidators: true, new: true})
     res.redirect(`/vitamins/${vitamin.id}`)
-})
+}))
 
-app.delete('/vitamins/:id', async (req, res) => {
+app.delete('/vitamins/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     const vitamin = await VitaModel.findByIdAndDelete(id)
     res.redirect(`/vitamins`)
+}))
+
+app.all('*', (req, res, next) => {
+    next(new ErrorApp('Page Not Found!', 404))
 })
-
-
+app.use((err, req, res, next) => {
+    const {message='Not the page you are looking for', statusCode=500} = err
+    res.status(statusCode).send(message)
+})
 
 app.listen(port, () => {
     console.log(`serving the from port ${port}`)
