@@ -7,10 +7,10 @@
         <h5 class="card-title"><%= vitamin.name %></h5>
         <h6 class="card-subtitle mb-2 text-muted"><%= vitamin.dosage %></h6>
         <p class="card-text"><%= vitamin.company %></p>
-        <div class="d-flex justify-content-between">
-            <a href="/vitamins/<%= vitamin.id %>/edit" class="btn btn-primary ">Edit Vitamin</a>
+        <div class="d-flex ">
+            <a href="/vitamins/<%= vitamin.id %>/edit" class="btn btn-primary ">Edit</a>
             <form action="/vitamins/<%= vitamin._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete Vitamin</button>
+            <button class="btn btn-danger">Delete </button>
             </form>
         </div>
       </div>
