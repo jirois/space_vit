@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 const ErrorApp = require('./utils/ErrorApp')
 const catchAsync = require('./utils/catchAsync')
+const Constituent = require('./models/composite')
 
 const options = {
     useNewUrlParser: true,
@@ -27,7 +28,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(methodOverride('_method'))
 
-const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop']
+const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop', 'Capsule']
 app.get('/', (req, res) => {
     res.render('index')
 })
@@ -42,13 +43,13 @@ app.get('/vitamins/new', (req, res) => {
 
 app.get('/vitamins/:id', catchAsync(async (req, res) => {
     const { id } = req.params
-    const vitamin = await VitaModel.findById(id)
+    const vitamin = await VitaModel.findById(id).populate('constituents')
+    console.log(vitamin)
     res.render('vitamin/show', { vitamin })
 }))
 
 app.post('/vitamins/create', catchAsync(async (req, res) => {
     const body = req.body;
-    if(!body) throw new ErrorApp('Invalid data from you', 400)
     const newVit = new VitaModel(body)
     await newVit.save()
     res.redirect(`/vitamins/${newVit.id}`)
@@ -74,6 +75,28 @@ app.delete('/vitamins/:id', catchAsync(async (req, res) => {
     const vitamin = await VitaModel.findByIdAndDelete(id)
     res.redirect(`/vitamins`)
 }))
+
+
+
+app.get('/vitamins/:id/constituent/new', async (req, res) => {
+    const vitamin = await VitaModel.findById(req.params.id)
+    res.render('constituent/new', {vitamin})
+})
+
+app.post('/vitamins/:id/constituent', async (req, res) => {
+    const {id} = req.params;
+    const vitamin = await VitaModel.findById(id)
+    const {constituent, strength, eqv} = req.body
+    const constituents = new Constituent({ constituent, strength, eqv})
+    vitamin.constituents.push(constituents)
+    await constituents.save()
+    await vitamin.save()
+    // console.log(vitamin)
+    res.redirect(`/vitamins/${id}`)
+
+})
+
+
 
 app.all('*', (req, res, next) => {
     next(new ErrorApp('Page Not Found!', 404))

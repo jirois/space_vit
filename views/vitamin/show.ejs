@@ -7,6 +7,18 @@
         <h6 class="card-subtitle mb-2 text-muted"><%= vitamin.dosage %></h6>
         <p class="card-text"><%= vitamin.company %></p>
 
+        <ul>
+          <% for (constituent of vitamin.constituents) { %>
+          <li><%= constituent['constituent'] %></li>
+          <% } %>
+        </ul>
+
+        <a
+          href="/vitamins/<%= vitamin.id %>/constituent/new"
+          class="btn btn-success"
+          >Add
+        </a>
+
         <a href="/vitamins/<%= vitamin.id %>/edit" class="btn btn-dark">Edit</a>
         <form
           action="/vitamins/<%= vitamin._id %>?_method=DELETE"
