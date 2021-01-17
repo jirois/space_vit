@@ -9,7 +9,7 @@ const vitSchema = new Schema({
     },
     dosage: {
         type: String,
-        enum: ['Drop', 'Tablet', 'Syrup', 'Suspension', 'Injection', 'Capsule']
+        enum: ['Drop', 'Tablet', 'Syrup', 'Suspension', 'Injection', 'Capsule', 'Caplet']
     },
     company: {
         type: String

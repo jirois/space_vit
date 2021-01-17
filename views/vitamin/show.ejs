@@ -7,11 +7,30 @@
         <h6 class="card-subtitle mb-2 text-muted"><%= vitamin.dosage %></h6>
         <p class="card-text"><%= vitamin.company %></p>
 
-        <ul>
+        <table class="table table-success table-striped">
+          <tr>
+            <th>Constituent</th>
+            <th>Strength</th>
+            <th>% Eqv</th>
+            <th>Delete</th>
+          </tr>
           <% for (constituent of vitamin.constituents) { %>
-          <li><%= constituent['constituent'] %></li>
+
+          <tr>
+            <td><%= constituent.constituent %></td>
+            <td><%= constituent.strength %></td>
+            <td><%= constituent.eqv %></td>
+            <td>
+              <form
+                action="/vitamins/<%= vitamin.id %>/constituent/<%=constituent.id %>?_method=DELETE"
+                method="POST"
+              >
+                <button class="btn btn-sm btn-danger">delete</button>
+              </form>
+            </td>
+          </tr>
           <% } %>
-        </ul>
+        </table>
 
         <a
           href="/vitamins/<%= vitamin.id %>/constituent/new"
