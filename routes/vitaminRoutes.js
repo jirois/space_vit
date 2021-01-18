@@ -1,10 +1,21 @@
 const express = require('express')
 const router = express.Router()
 const catchAsync = require('../utils/catchAsync')
+const ErrorApp = require('../utils/ErrorApp')
 const VitaModel = require('../models/model')
+const { vitaminSchema } = require('../validate/schema')
 
 const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop', 'Capsule', 'Caplet']
 
+const validateVitamin = (req, res, next) => {
+    const { error } = vitaminSchema.validate(req.body)
+    if (error) {
+        const message = error.details.map(el => el.message).join(',')
+        throw new ErrorApp(message, 400)
+    } else {
+    next()
+    }
+}
 
 router.get('/', catchAsync(async (req, res) => {
     const vitamins = await VitaModel.find()
@@ -22,7 +33,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('vitamin/show', { vitamin })
 }))
 
-router.post('/create', catchAsync(async (req, res) => {
+router.post('/create', validateVitamin, catchAsync(async (req, res) => {
     const body = req.body;
     const newVit = new VitaModel(body)
     await newVit.save()
@@ -36,7 +47,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('vitamin/edit', {vitamin, dosageForm})
 }))
 
-router.put('/:id', catchAsync(async (req, res) => {
+router.put('/:id', validateVitamin, catchAsync(async (req, res) => {
     const { id } = req.params
     if(!id) throw new ErrorApp("Not the id boddy", 401)
     const body = req.body;
