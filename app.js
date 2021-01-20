@@ -42,7 +42,7 @@ app.all('*', (req, res, next) => {
     next(new ErrorApp('Page Not Found!', 404))
 })
 app.use((err, req, res, next) => {
-    const {message='Not the page you are looking for', statusCode=500} = err
+    const {message, statusCode} = err
     res.status(statusCode).send(message)
 })
 
