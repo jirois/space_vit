@@ -11,3 +11,9 @@ module.exports.renderVitamin = async (req, res) => {
     console.log(vitamin)
     res.render('vitamin/show', { vitamin })
 }
+
+module.exports.renderUpdateForm = async (req, res) => {
+    const { id } = req.params;
+    const vitamin = await VitaModel.findById(id)
+    res.render('vitamin/edit', {vitamin, dosageForm})
+}

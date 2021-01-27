@@ -3,7 +3,12 @@ const router = express.Router()
 const catchAsync = require('../utils/catchAsync')
 const ErrorApp = require('../utils/ErrorApp')
 const VitaModel = require('../models/model')
-const { renderIndex, renderNewForm, renderVitamin } = require('../controller/vitaminController')
+const { 
+     renderIndex,
+     renderNewForm, 
+     renderVitamin,
+     renderUpdateForm
+    } = require('../controller/vitaminController')
 const { vitaminSchema } = require('../validate/schema')
 
 const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop', 'Capsule', 'Caplet']
@@ -32,11 +37,7 @@ router.post('/create', validateVitamin, catchAsync(async (req, res) => {
 
 }))
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const vitamin = await VitaModel.findById(id)
-    res.render('vitamin/edit', {vitamin, dosageForm})
-}))
+router.get('/:id/edit', catchAsync(renderUpdateForm))
 
 router.put('/:id', validateVitamin, catchAsync(async (req, res) => {
     const { id } = req.params
