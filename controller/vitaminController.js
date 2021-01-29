@@ -13,9 +13,15 @@ module.exports.renderVitamin = async (req, res) => {
     console.log(vitamin)
     res.render('vitamin/show', { vitamin })
 }
-
 module.exports.renderUpdateForm = async (req, res) => {
     const { id } = req.params;
     const vitamin = await VitaModel.findById(id)
     res.render('vitamin/edit', {vitamin, dosageForm})
+}
+module.exports.renderUpdate = async (req, res) => {
+    const { id } = req.params
+    if(!id) throw new ErrorApp("Not the id boddy", 401)
+    const body = req.body;
+    const vitamin = await VitaModel.findByIdAndUpdate(id, body, {runValidators: true, new: true})
+    res.redirect(`/vitamins/${vitamin.id}`)
 }

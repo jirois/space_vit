@@ -7,11 +7,12 @@ const {
      renderIndex,
      renderNewForm, 
      renderVitamin,
-     renderUpdateForm
+     renderUpdateForm,
+     renderUpdate
     } = require('../controller/vitaminController')
 const { vitaminSchema } = require('../validate/schema')
 
-const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop', 'Capsule', 'Caplet']
+
 
 const validateVitamin = (req, res, next) => {
     const { error } = vitaminSchema.validate(req.body)
@@ -39,13 +40,7 @@ router.post('/create', validateVitamin, catchAsync(async (req, res) => {
 
 router.get('/:id/edit', catchAsync(renderUpdateForm))
 
-router.put('/:id', validateVitamin, catchAsync(async (req, res) => {
-    const { id } = req.params
-    if(!id) throw new ErrorApp("Not the id boddy", 401)
-    const body = req.body;
-    const vitamin = await VitaModel.findByIdAndUpdate(id, body, {runValidators: true, new: true})
-    res.redirect(`/vitamins/${vitamin.id}`)
-}))
+router.put('/:id', validateVitamin, catchAsync(renderUpdate))
 
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params
