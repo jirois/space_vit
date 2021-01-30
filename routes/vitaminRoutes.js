@@ -8,7 +8,8 @@ const {
      renderNewForm, 
      renderVitamin,
      renderUpdateForm,
-     renderUpdate
+     renderUpdate,
+     renderCreate
     } = require('../controller/vitaminController')
 const { vitaminSchema } = require('../validate/schema')
 
@@ -30,13 +31,7 @@ router.get('/new', renderNewForm)
 
 router.get('/:id', catchAsync(renderVitamin))
 
-router.post('/create', validateVitamin, catchAsync(async (req, res) => {
-    const body = req.body;
-    const newVit = new VitaModel(body)
-    await newVit.save()
-    res.redirect(`/vitamins/${newVit.id}`)
-
-}))
+router.post('/create', validateVitamin, catchAsync( renderCreate))
 
 router.get('/:id/edit', catchAsync(renderUpdateForm))
 

@@ -18,6 +18,13 @@ module.exports.renderUpdateForm = async (req, res) => {
     const vitamin = await VitaModel.findById(id)
     res.render('vitamin/edit', {vitamin, dosageForm})
 }
+module.exports.renderCreate = async (req, res) => {
+    const body = req.body;
+    const newVit = new VitaModel(body)
+    await newVit.save()
+    res.redirect(`/vitamins/${newVit.id}`)
+
+}
 module.exports.renderUpdate = async (req, res) => {
     const { id } = req.params
     if(!id) throw new ErrorApp("Not the id boddy", 401)
