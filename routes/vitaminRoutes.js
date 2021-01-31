@@ -9,7 +9,8 @@ const {
      renderVitamin,
      renderUpdateForm,
      renderUpdate,
-     renderCreate
+     renderCreate,
+     renderDelete
     } = require('../controller/vitaminController')
 const { vitaminSchema } = require('../validate/schema')
 
@@ -37,10 +38,6 @@ router.get('/:id/edit', catchAsync(renderUpdateForm))
 
 router.put('/:id', validateVitamin, catchAsync(renderUpdate))
 
-router.delete('/:id', catchAsync(async (req, res) => {
-    const { id } = req.params
-    const vitamin = await VitaModel.findByIdAndDelete(id)
-    res.redirect(`/vitamins`)
-}))
+router.delete('/:id', catchAsync(renderDelete))
 
 module.exports = router;

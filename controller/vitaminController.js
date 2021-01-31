@@ -32,3 +32,8 @@ module.exports.renderUpdate = async (req, res) => {
     const vitamin = await VitaModel.findByIdAndUpdate(id, body, {runValidators: true, new: true})
     res.redirect(`/vitamins/${vitamin.id}`)
 }
+module.exports.renderDelete = async (req, res) => {
+    const { id } = req.params
+    const vitamin = await VitaModel.findByIdAndDelete(id)
+    res.redirect(`/vitamins`)
+}
