@@ -12,7 +12,7 @@
             <th>Constituent</th>
             <th>Strength</th>
             <th>% Eqv</th>
-            <th>Delete</th>
+            <th>Info</th>
           </tr>
           <% for (constituent of vitamin.constituents) { %>
 
@@ -21,14 +21,13 @@
             <td><%= constituent.strength %></td>
             <td><%= constituent.eqv %></td>
             <td>
-              <form
-                action="/vitamins/<%= vitamin.id %>/constituent/<%=constituent.id %>?_method=DELETE"
-                method="POST"
-              >
-                <button class="btn btn-sm btn-danger">delete</button>
-              </form>
+              <a
+                href="/vitamins/<%= vitamin.id %>/constituent/<%= constituent.id %>"
+                >details
+              </a>
             </td>
           </tr>
+
           <% } %>
         </table>
 

@@ -18,6 +18,14 @@ module.exports.createNewConstituent= async (req, res) => {
     res.redirect(`/vitamins/${id}`)
 }
 
+module.exports.showConstituent = async (req, res) => {
+    const {id, constId} = req.params
+    const vitamin = await VitaModel.findById(id)
+    const constituent = await Constituent.findById(constId)
+    res.render('constituent/show', {vitamin, constituent})
+
+}
+
 module.exports.deleteConstituent = async (req, res) => {
     const { id, constId } = req.params;
     await VitaModel.findOneAndUpdate(id, {$pull: {constituents: constId}})

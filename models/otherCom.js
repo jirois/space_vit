@@ -10,4 +10,4 @@ const OtherConSchema = new Schema({
     }
     
 })
-module.exports = mongoose.model('other', OtherConSchema)
+module.exports = mongoose.model('Other', OtherConSchema)

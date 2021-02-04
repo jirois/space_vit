@@ -11,8 +11,8 @@ module.exports.renderNewForm= (req, res) => {
 }
 module.exports.renderVitamin = async (req, res) => {
     const { id } = req.params
-    const vitamin = await (await VitaModel.findById(id).populate('constituents')).populate('others')
-    console.log(vitamin)
+    const vitamin = await (await VitaModel.findById(id).populate
+    ('others').populate('constituents'))
     res.render('vitamin/show', { vitamin })
 }
 module.exports.renderUpdateForm = async (req, res) => {
