@@ -32,6 +32,12 @@
           <% } %>
         </table>
 
+        <ul>
+          <% for (other of vitamin.others) { %>
+          <li><%= other.name %></li>
+          <% } %>
+        </ul>
+
         <a
           href="/vitamins/<%= vitamin.id %>/constituent/new"
           class="btn btn-success"
@@ -46,6 +52,10 @@
         >
           <button class="btn btn-danger">Delete</button>
         </form>
+
+        <a href="/vitamins/<%= vitamin.id %>/others/new" class="btn btn-success"
+          >Add other
+        </a>
       </div>
     </div>
   </div>

@@ -8,6 +8,7 @@ const methodOverride = require('method-override')
 const ErrorApp = require('./utils/ErrorApp')
 const VitaminRoutes = require('./routes/vitaminRoutes')
 const ConstituentRoutes = require('./routes/constituentRoute')
+const OtherRoutes = require('./routes/otherRoute')
 
 const options = {
     useNewUrlParser: true,
@@ -29,6 +30,8 @@ app.use(express.json())
 app.use(methodOverride('_method'))
 app.use('/vitamins', VitaminRoutes)
 app.use('/vitamins/:id/constituent', ConstituentRoutes)
+app.use('/vitamins/:id/others', OtherRoutes)
+
 
 
 app.get('/', (req, res) => {

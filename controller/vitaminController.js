@@ -1,3 +1,5 @@
+const VitaModel = require('../models/model')
+
 const dosageForm = ['Tablet','Injection','Syrup', 'Suspension','Drop', 'Capsule', 'Caplet']
 
 module.exports.renderIndex = async (req, res) => {
@@ -9,7 +11,7 @@ module.exports.renderNewForm= (req, res) => {
 }
 module.exports.renderVitamin = async (req, res) => {
     const { id } = req.params
-    const vitamin = await VitaModel.findById(id).populate('constituents')
+    const vitamin = await (await VitaModel.findById(id).populate('constituents')).populate('others')
     console.log(vitamin)
     res.render('vitamin/show', { vitamin })
 }
@@ -20,6 +22,7 @@ module.exports.renderUpdateForm = async (req, res) => {
 }
 module.exports.renderCreate = async (req, res) => {
     const body = req.body;
+   
     const newVit = new VitaModel(body)
     await newVit.save()
     res.redirect(`/vitamins/${newVit.id}`)

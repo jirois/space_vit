@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const Constituent = require('./composite')
 const Schema = mongoose.Schema
 
+
 const vitSchema = new Schema({
     name: {
         type: String,
@@ -19,8 +20,13 @@ const vitSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Constituent'
         }
+    ],
+    others: [
+        {
+           type: Schema.Types.ObjectId,
+           ref: 'Other'
+        }
     ]
-
 })
 
 vitSchema.post('findOneAndDelete', async (vita) => {
