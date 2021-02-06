@@ -29,9 +29,10 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.use(methodOverride('_method'))
 app.use('/vitamins', VitaminRoutes)
-app.use('/vitamins/:id/constituent', ConstituentRoutes)
-app.use('/vitamins/:id/others', OtherRoutes)
 
+app.use('/vitamins/:id/constituent', ConstituentRoutes)
+
+app.use('/vitamins/:id/others', OtherRoutes)
 
 
 app.get('/', (req, res) => {
@@ -45,7 +46,7 @@ app.all('*', (req, res, next) => {
     next(new ErrorApp('Page Not Found!', 404))
 })
 app.use((err, req, res, next) => {
-    const {message, statusCode} = err
+    const {message, statusCode=500} = err
     res.status(statusCode).send(message)
 })
 

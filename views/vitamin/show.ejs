@@ -30,13 +30,17 @@
 
           <% } %>
         </table>
+        <% if (vitamin.others.length) {%>
+        <h5 class="title">Other Constituents</h5>
 
-        <ul>
+        <ul class="list-group list-group-flush mb-3">
           <% for (other of vitamin.others) { %>
-          <li><%= other.name %></li>
+          <!-- <a href="/vitamins/<%= vitamin.id %>/others/<%= other.id %>"> -->
+          <li class="list-group-item"><%= other.name %></li>
+          <!-- </a> -->
           <% } %>
         </ul>
-
+        <% } %>
         <a
           href="/vitamins/<%= vitamin.id %>/constituent/new"
           class="btn btn-success"

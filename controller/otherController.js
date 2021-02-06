@@ -18,6 +18,13 @@ module.exports.createNewOther = async (req, res) => {
     console.log(vitamin)
     res.redirect(`/vitamins/${id}`)
 }
+module.exports.showOtherConst = async (req, res) => {
+    const {id, otherId} = req.params
+    const vitamin = await VitaModel.findById(id)
+    const others = await Others.findById(otherId)
+    res.render('others/show', {vitamin, others})
+
+}
 
 module.exports.deleteOther = async (req, res) => {
     const { id, otherId } = req.params;
